@@ -9,7 +9,7 @@ const categoriesRoute = require('./Router/Catagory-router');
 const multer = require('multer')
 const cookieParser = require('cookie-parser');
 const path = require("path");
-const authgurd = require('./authgard/authgurd');
+// const authgurd = require('./authgard/authgurd');
 
 // env file config
 dotenv.config();
@@ -60,8 +60,8 @@ app.post('/upload',upload.single('files'),(req, res)=>{
 // routes
 
 app.use("/auth",authRoute);
-app.use("/users",authgurd,usersRoute);
-app.use("/posts",authgurd,postsRoute);
+app.use("/users",usersRoute);
+app.use("/posts",postsRoute);
 app.use("/category",categoriesRoute);
 
 // error handler 
