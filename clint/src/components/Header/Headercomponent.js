@@ -6,7 +6,7 @@ function Headercomponent () {
         <Headerbox>
                 <Titlebox>
                     <Title>Saykot Hossain</Title>
-                    <Subtitle>Blog App</Subtitle>
+                    <Subtitle>Blogs</Subtitle>
                 </Titlebox>
                <Heroimg src={Heroimage} alt="" />
        </Headerbox>
