@@ -281,7 +281,6 @@ function Setting (){
         try {
             const res = await axios.delete(`/users/${user._id}`,{data:{userId:user._id,username:user.username}})
             res && window.location.replace("/register");
-            res &&  dispatch({type:"LOGOUT"})
 
         } catch (error) {
             dispatch({type:"UPDATE_FAILOUR "}) 

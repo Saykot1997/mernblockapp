@@ -28,9 +28,8 @@ router.post('/register',async(req,res)=>{
           password:hashedpassword
       });
 
-      const user = await newUser.save();
-      // const {password, ...others} = user._doc;
-      res.status(200).json("Register success");
+          await newUser.save();
+         res.status(200).json("Register success");
      
 
     }catch(err){

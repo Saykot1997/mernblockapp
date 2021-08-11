@@ -62,6 +62,7 @@ export const Socallinks = styled.div`
   display: flex;
 `
 export const Links = styled(Link)`
-   color: #333;
+   color: ${({facebook})=>(facebook ? "#444" : "#333")};
    text-decoration: none;
+   
 `

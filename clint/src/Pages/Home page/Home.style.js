@@ -5,6 +5,7 @@ export const Container = styled.div`
    display: flex;
    width: 100%;
    flex-wrap: wrap;
+   overflow-x: hidden;
 `;
 
 export const PostWraper = styled.div`
@@ -26,6 +27,7 @@ export const SideWraper = styled.div`
 
   @media only screen and (max-width:600px){
     width: 100%;
+    margin-left: -20px;
   }
 
 @media only screen and (max-width:400px){

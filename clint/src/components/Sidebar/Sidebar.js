@@ -22,7 +22,7 @@ function Sidebar() {
             <SidebarItems>
                 <Title>about the site</Title>
                 <Img src={logo} />
-                <Desc>Tell us your story we and many others are here to listen your untold story that mabe the best insident in your life.Many others also share there story and you can also read there too.</Desc>
+                <Desc>Tell us your story.We and many others are here to listen your untold story that maybe the best insident in your life.Many others also share there story and you can also read there too.</Desc>
             </SidebarItems>
             <SidebarItems>
                 <Title>catagoties</Title>
@@ -36,7 +36,7 @@ function Sidebar() {
             <SidebarItems>
                 <Title>folow us</Title>
                 <Socallinks>
-                    <FaFacebookSquare style={style} />
+                   <Links facebook to={`https://www.facebook.com/saykot.hossain.1/`}><FaFacebookSquare style={style} /> </Links>  
                     <FaTwitterSquare style={style} />
                     <FaPinterestSquare style={style} />
                     <FaInstagramSquare style={style} />

@@ -12,7 +12,6 @@ export default function Topbar() {
 
     const Logout = ()=>{
         dispatch({type:"LOGOUT"})
-        window.location.reload()
     }
 
     const menutoggle = ()=>{

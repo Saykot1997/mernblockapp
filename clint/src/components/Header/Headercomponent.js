@@ -5,8 +5,8 @@ function Headercomponent () {
     return (
         <Headerbox>
                 <Titlebox>
-                    <Title>React & Node</Title>
-                    <Subtitle>Blog</Subtitle>
+                    <Title>Saykot Hossain</Title>
+                    <Subtitle>Blog App</Subtitle>
                 </Titlebox>
                <Heroimg src={Heroimage} alt="" />
        </Headerbox>

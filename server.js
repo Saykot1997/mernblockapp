@@ -9,7 +9,6 @@ const categoriesRoute = require('./Router/Catagory-router');
 const multer = require('multer')
 const cookieParser = require('cookie-parser');
 const path = require("path");
-// const authgurd = require('./authgard/authgurd');
 
 // env file config
 dotenv.config();

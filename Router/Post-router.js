@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const Post = require('../Models/Post_model');
 const fs = require("fs");
+const authgurd = require('../authgard/authgurd');
 
 // Creat Post
 
-router.post('/',async (req,res)=>{
+router.post('/',authgurd,async (req,res)=>{
 
     const newPost = new Post(req.body);
 
@@ -19,7 +20,7 @@ router.post('/',async (req,res)=>{
 
 // Update Post
 
-router.put('/:id',async(req,res)=>{
+router.put('/:id',authgurd,async(req,res)=>{
 
     try 
     {
@@ -66,7 +67,7 @@ router.put('/:id',async(req,res)=>{
 
 // Delete Post
 
-router.delete('/:id',async (req,res)=>{
+router.delete('/:id',authgurd,async (req,res)=>{
 
     try 
     {

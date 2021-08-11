@@ -3,11 +3,11 @@ const User = require('../Models/User_model');
 const Post = require('../Models/Post_model');
 const bcrypt = require('bcrypt');  
 const fs = require("fs")
-
+const authgurd = require("../authgard/authgurd")
 
 // update account
 
-router.put('/:id',async (req,res)=>{
+router.put('/:id',authgurd,async (req,res)=>{
 
  if(req.body.userId === req.params.id){
 
@@ -19,7 +19,7 @@ router.put('/:id',async (req,res)=>{
             const oldPhotoWithPath = uploadDir+oldPhoto;
         
             if (fs.existsSync(oldPhotoWithPath)) {
-                fs.unlink(oldPhotoWithPath, (err) => {
+                fs.unlink(oldPhotoWithPath,(err) => {
                 console.log(err);
                 });
             }
@@ -46,7 +46,7 @@ router.put('/:id',async (req,res)=>{
 
 // delate account
 
-router.delete('/:id',async (req,res)=>{
+router.delete('/:id',authgurd,async (req,res)=>{
    
 
     if(req.body.userId === req.params.id)

@@ -4,6 +4,7 @@ export const Singlecontainer = styled.div`
    width: 100%;
    display: flex;
    flex-wrap: wrap;
+   overflow-x: hidden;
    
 `
 
@@ -20,6 +21,7 @@ export const SidebarWraper = styled.div`
 
    @media only screen and (max-width:600px){
     width: 100%;
+    margin-left: -20px;
   }
 
 `
