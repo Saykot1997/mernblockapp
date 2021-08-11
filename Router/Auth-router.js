@@ -52,8 +52,9 @@ router.post('/login', async (req,res)=>{
     const {password, ...others} = user._doc;
 
   //  json web token 
-    const token = await jwt.sign({username:user.username,userid:user._id},process.env.SECRATE_KEY);
-    res.status(200).cookie("jwt",token,{ httpOnly: true}).json(others);
+    // const token = await jwt.sign({username:user.username,userid:user._id},process.env.SECRATE_KEY);
+    // res.status(200).cookie("jwt",token,{ httpOnly: true}).
+    res.status(200).json(others);
  
     
   }catch(err){

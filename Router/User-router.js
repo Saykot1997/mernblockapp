@@ -3,11 +3,11 @@ const User = require('../Models/User_model');
 const Post = require('../Models/Post_model');
 const bcrypt = require('bcrypt');  
 const fs = require("fs")
-const authgurd = require("../authgard/authgurd")
+// const authgurd = require("../authgard/authgurd")
 
 // update account
 
-router.put('/:id',authgurd,async (req,res)=>{
+router.put('/:id',async (req,res)=>{
 
  if(req.body.userId === req.params.id){
 
@@ -46,7 +46,7 @@ router.put('/:id',authgurd,async (req,res)=>{
 
 // delate account
 
-router.delete('/:id',authgurd,async (req,res)=>{
+router.delete('/:id',async (req,res)=>{
    
 
     if(req.body.userId === req.params.id)
