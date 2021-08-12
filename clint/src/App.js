@@ -6,6 +6,7 @@ import Write from "./Pages/Write/Write"
 import Setting from "./Pages/Setting/Setting";
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
+import About from "./Pages/About/About";
 import { useContext } from "react";
 import { Context } from "./Context/Context";
 
@@ -19,6 +20,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route  path="/post/:postId" component={ user ? Single :Login} />
+        <Route  path="/about" component={user ? About : Login} />
         <Route  path="/write" component={user ? Write : Login} />
         <Route  path="/setting" component={user ? Setting : Login} />
         <Route  path="/login" component={user ? Home : Login} />

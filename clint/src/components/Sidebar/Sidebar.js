@@ -36,7 +36,7 @@ function Sidebar() {
             <SidebarItems>
                 <Title>folow us</Title>
                 <Socallinks>
-                   <Links facebook to={`https://www.facebook.com/saykot.hossain.1/`}><FaFacebookSquare style={style} /> </Links>  
+                    <FaFacebookSquare style={style} /> 
                     <FaTwitterSquare style={style} />
                     <FaPinterestSquare style={style} />
                     <FaInstagramSquare style={style} />
