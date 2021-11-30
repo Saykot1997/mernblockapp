@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const authRoute = require('./Router/Auth-router');
 const usersRoute = require('./Router/User-router');
 const postsRoute = require('./Router/Post-router');
+const passwordRoute = require("./Router/PasswordReset-router");
 const categoriesRoute = require('./Router/Catagory-router');
 const multer = require('multer')
 const cookieParser = require('cookie-parser');
@@ -64,6 +65,7 @@ app.use("/auth", authRoute);
 app.use("/users", usersRoute);
 app.use("/posts", postsRoute);
 app.use("/category", categoriesRoute);
+app.use("/password", passwordRoute);
 
 
 // error handler 

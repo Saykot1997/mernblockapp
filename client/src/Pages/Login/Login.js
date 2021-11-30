@@ -52,7 +52,7 @@ function Login() {
                             <Navlink to="/register"><BtnReg>Register</BtnReg></Navlink>
                         </Formgroup>
                         <Formgroup>
-                            <Forget>Forget Password ?</Forget>
+                            <Forget to="/PasswordReset">Forget Password ?</Forget>
                         </Formgroup>
                     </Form>
                 </Formbox>

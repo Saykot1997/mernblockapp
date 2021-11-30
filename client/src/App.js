@@ -9,6 +9,8 @@ import Register from "./Pages/Register/Register";
 import About from "./Pages/About/About";
 import { useContext } from "react";
 import { Context } from "./Context/Context";
+import PasswordReset from "./Pages/Password-reset/PasswordReset";
+import PasswortCreate from "./Pages/Password-reset/PasswortCreate";
 
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
         <Route path="/setting" component={user ? Setting : Login} />
         <Route path="/login" component={user ? Home : Login} />
         <Route path="/register" component={user ? Home : Register} />
+        <Route path="/newpassword/:link" component={PasswortCreate} />
+        <Route path="/PasswordReset" component={PasswordReset} />
       </Switch>
     </Router>
   );

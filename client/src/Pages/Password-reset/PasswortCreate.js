@@ -1,0 +1,89 @@
+import axios from 'axios';
+import React, { useContext, useState } from 'react'
+import { Context } from "../../Context/Context"
+import { useHistory, useLocation } from 'react-router';
+import { userActions } from "../../Context/Action";
+
+function PasswortCreate() {
+
+    const [password, setPassword] = useState('');
+    const [passwordRepeat, setPasswordRepeat] = useState('');
+    const location = useLocation();
+    const history = useHistory();
+    const { dispatch } = useContext(Context);
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const GetParams = (quiry) => {
+
+        if (quiry) {
+            const quiryString = quiry.split("?")[1];
+            if (quiryString.length > 0) {
+                const params = quiryString.split("&");
+                const paramObj = {};
+                params.forEach(element => {
+                    const keyValue = element.split("=");
+                    paramObj[keyValue[0]] = keyValue[1];
+                });
+
+                return paramObj
+            }
+
+        }
+
+        return {};
+    }
+
+    const params = GetParams(location.search);
+
+    const CreateNewPassword = async () => {
+
+        if (password && passwordRepeat) {
+
+            if (password === passwordRepeat) {
+
+                const tokenData = {
+                    token: params.token,
+                    userId: params.id,
+                    password: password
+                }
+
+                try {
+                    setLoading(true);
+                    const res = await axios.post("/password/create-password", tokenData);
+                    dispatch({ type: userActions.LoadingSuccess, payload: res.data })
+                    res.data && history.replace('/');
+                }
+                catch (error) {
+
+                    setError(error.message)
+                }
+
+            } else {
+
+                alert("Password dosenot match !!!");
+            }
+
+        } else {
+
+            alert("Fill all fields");
+        }
+    }
+
+
+    if (loading) {
+        return <div><h3>Loading...</h3></div>
+    }
+
+    return (
+        <div>
+            <h4>PasswortCreate</h4>
+            <input type="text" placeholder="New Password" onChange={(e) => { setPassword(e.target.value) }} />
+            <input type="text" placeholder="Confirm Password" onChange={(e) => { setPasswordRepeat(e.target.value) }} />
+            <button onClick={CreateNewPassword}>Create</button>
+            <h4>{error}</h4>
+        </div>
+    )
+}
+
+export default PasswortCreate

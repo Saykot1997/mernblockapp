@@ -109,8 +109,9 @@ export const P = styled.p`
     display: block;
   }
 `
-export const Forget = styled.p`
+export const Forget = styled(Link)`
   margin-top: 10px;
   cursor: pointer;
   color: red;
+  text-decoration: none;
 `
