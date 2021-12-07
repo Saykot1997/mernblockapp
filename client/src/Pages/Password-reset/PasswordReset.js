@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { Body, InputBox, Statement, Title, Wraper } from './password-reset.style';
 
 function PasswordReset() {
 
@@ -7,6 +8,7 @@ function PasswordReset() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
 
     const sendEmail = () => {
@@ -40,11 +42,24 @@ function PasswordReset() {
     }
 
     return (
-        <div>
-            <h1>Password Reset</h1>
-            <input type="email" placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
-            <button onClick={sendEmail}>Reset</button>
-        </div>
+        <Body>
+            <Wraper>
+                <Title>
+                    <h4>Forget Password ?</h4>
+                </Title>
+                <Statement>
+                    <p>Don't wory.Give your email we will send you a reset</p>
+                </Statement>
+                <InputBox>
+                    <input type={showPassword ? "text" : "password"} placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
+                    {
+                        showPassword ? <p onClick={() => { setShowPassword(false) }}>hide</p> : <p onClick={() => { setShowPassword(true) }}>show</p>
+                    }
+                    <button onClick={sendEmail}>Send Request</button>
+                </InputBox>
+            </Wraper>
+        </Body >
+
     )
 }
 

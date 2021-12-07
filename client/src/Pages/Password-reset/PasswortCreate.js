@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react'
 import { Context } from "../../Context/Context"
 import { useHistory, useLocation } from 'react-router';
 import { userActions } from "../../Context/Action";
+import { Body, Error, InputBox, Title, Wraper } from './password-reset.style';
 
 function PasswortCreate() {
 
@@ -13,6 +14,8 @@ function PasswortCreate() {
     const { dispatch } = useContext(Context);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
 
     const GetParams = (quiry) => {
 
@@ -76,13 +79,28 @@ function PasswortCreate() {
     }
 
     return (
-        <div>
-            <h4>PasswortCreate</h4>
-            <input type="text" placeholder="New Password" onChange={(e) => { setPassword(e.target.value) }} />
-            <input type="text" placeholder="Confirm Password" onChange={(e) => { setPasswordRepeat(e.target.value) }} />
-            <button onClick={CreateNewPassword}>Create</button>
-            <h4>{error}</h4>
-        </div>
+        <Body>
+            <Wraper>
+                <Title>
+                    <h4>PasswortCreate</h4>
+                </Title>
+                <InputBox>
+                    <input type={showPassword ? "text" : "password"} placeholder="New Password" onChange={(e) => { setPassword(e.target.value) }} />
+                    {
+                        showPassword ? <p onClick={() => { setShowPassword(false) }}>hide</p> : <p onClick={() => { setShowPassword(true) }}>show</p>
+                    }
+                </InputBox>
+                <InputBox>
+                    <input type={showPasswordRepeat ? "text" : "password"} placeholder="Confirm Password" onChange={(e) => { setPasswordRepeat(e.target.value) }} />
+                    {
+                        showPasswordRepeat ? <p onClick={() => { setShowPasswordRepeat(false) }}>hide</p> : <p onClick={() => { setShowPasswordRepeat(true) }}>show</p>
+                    }
+                    <button onClick={CreateNewPassword}>Create</button>
+                </InputBox>
+                <Error>{error}</Error>
+            </Wraper>
+        </Body>
+
     )
 }
 
