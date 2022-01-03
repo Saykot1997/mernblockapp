@@ -36,7 +36,7 @@ router.post("/sendemail", async (req, res) => {
             requireTLS: true,
             auth: {
                 user: "saykothossain14@gmail.com",
-                pass: "01774400797",
+                pass:process.env.EMAIL_PASSWORD,
             },
             tls: {
                 rejectUnauthorized: false,
