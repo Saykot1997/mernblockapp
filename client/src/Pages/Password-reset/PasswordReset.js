@@ -8,7 +8,6 @@ function PasswordReset() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
 
 
     const sendEmail = () => {
@@ -51,10 +50,7 @@ function PasswordReset() {
                     <p>Don't wory.Give your email we will send you a reset</p>
                 </Statement>
                 <InputBox>
-                    <input type={showPassword ? "text" : "password"} placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
-                    {
-                        showPassword ? <p onClick={() => { setShowPassword(false) }}>hide</p> : <p onClick={() => { setShowPassword(true) }}>show</p>
-                    }
+                    <input type="email" placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
                     <button onClick={sendEmail}>Send Request</button>
                 </InputBox>
             </Wraper>

@@ -13,7 +13,6 @@ router.post("/sendemail", async (req, res) => {
 
     try {
         const user = await User.findOne({ email: req.body.email });
-
         if (!user) throw new Error("User does not exist");
         let token = await Token.findOne({ userId: user._id });
         if (token) await token.deleteOne();
@@ -35,8 +34,8 @@ router.post("/sendemail", async (req, res) => {
             secure: false,
             requireTLS: true,
             auth: {
-                user: "saykothossain14@gmail.com",
-                pass: "01774400797",
+                user: process.env.EMAIL,
+                pass: process.env.EMAIL_PASSWORD
             },
             tls: {
                 rejectUnauthorized: false,
@@ -44,10 +43,10 @@ router.post("/sendemail", async (req, res) => {
         });
 
         await transporter.sendMail({
-            from: 'saykothossain14@gmail.com',
-            to: "smia38955@gmail.com",
-            subject: "Hello ✔",
-            text: "Hello world?",
+            from: process.env.EMAIL,
+            to: req.body.email,
+            subject: "Change Password",
+            text: "Click on the link to change your password",
             html: `<a href=${link}>Change Password Link</a>`,
         });
 

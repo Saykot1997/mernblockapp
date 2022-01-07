@@ -114,7 +114,9 @@ router.put('/comments/:id', authgurd, async (req, res) => {
     const post = await Post.findById(req.params.id);
 
     try {
+
         if (post) {
+
             const postComment = await Post.findOneAndUpdate({ _id: req.params.id }, {
                 $set: {
                     comments: [...post.comments,
@@ -126,12 +128,18 @@ router.put('/comments/:id', authgurd, async (req, res) => {
                 }
             }
                 , { new: true })
+
             res.status(200).json(postComment)
+
+        } else {
+
+            res.status(400).json("could not find the post")
         }
 
     } catch (error) {
+
         console.log(error)
-        res.send(error)
+        res.json(error)
     }
 
 });
