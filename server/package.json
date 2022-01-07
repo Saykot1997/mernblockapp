@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix clint && npm run build --prefix clint"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",

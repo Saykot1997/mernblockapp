@@ -26,7 +26,9 @@ app.use(cookieParser());
 
 
 // databess conection
-mongoose.connect('mongodb://localhost:27017/blockapp', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, () => { console.log("databess has been conected !") });
+const databaseUrl = 'mongodb://localhost:27017/blockapp';
+
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, () => { console.log("databess has been conected !") });
 
 // multer images upload
 
@@ -80,20 +82,11 @@ app.use((err, req, res, next) => {
 
 // port number
 
-//const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
-//only for heroku diploy
-
-// if(process.env.NODE_ENV==="production"){
-//   app.use(express.static(path.join(__dirname,"/clint/build")))
-
-//   app.get("*",(req,res)=>{
-//     res.sendFile(path.join(__dirname,"clint","build","index.html"))
-//   })
-// }
 
 // app host port
 
-app.listen(5000, () => {
+app.listen(PORT, () => {
   console.log("server is running");
 })
