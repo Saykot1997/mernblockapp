@@ -1,10 +1,14 @@
 import { Postdiv, Postimg, Postinfo, Postcatagory, Postdesc, Posttime, Posttitle, Postcatagoryitem, Links } from "./Post.style"
+import { Host } from "../../Data"
 
 function Post({ post }) {
-    const PF = "http://localhost:5000/upload/"
+    const PF = `${Host}/upload/`
     return (
         <Postdiv>
-            {post.photo && (<Postimg src={PF + post.photo} />)}
+            <Links to={`/post/${post._id}`}>
+                {post.photo && (<Postimg src={PF + post.photo} />)}
+            </Links>
+
             <Postinfo>
                 <Postcatagory>
                     <Links to={`/?cat=${post.category}`}><Postcatagoryitem>{post.category}</Postcatagoryitem></Links>

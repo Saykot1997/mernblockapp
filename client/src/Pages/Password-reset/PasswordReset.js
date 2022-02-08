@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { Body, InputBox, Statement, Title, Wraper } from './password-reset.style';
+import { Host } from "../../Data";
 
 function PasswordReset() {
 
@@ -10,34 +11,38 @@ function PasswordReset() {
     const [loading, setLoading] = useState(false);
 
 
+
     const sendEmail = () => {
 
         setLoading(true);
-        axios.post("/password/sendemail", ({ email: email })).then(res => {
+        axios.post(`${Host}/password/sendemail`, ({ email: email })).then(res => {
 
             if (res.status === 200) {
                 setLoading(false)
-                setSuccess("Message has been send")
+                setSuccess("Message has been send. Please check your email");
             }
         }).catch(function (error) {
 
-            if (error.response) {
-                setLoading(false)
-                setError("Something went wrong")
+            if (error.response.data === "User not found") {
+                setLoading(false);
+                setError("User not found.Enter correct email");
+            } else {
+                setLoading(false);
+                setError("Server Error");
             }
         });
 
     }
 
     if (loading) {
-        return <div><h3>Loading...</h3></div>
+        return <div><h3 style={{ marginTop: "20px", textAlign: "center" }}>Loading...</h3></div>
     }
     if (error) {
-        return <div><h3 style={{ color: "red" }}>{error}</h3></div>
+        return <div><h3 style={{ color: "red", marginTop: "20px", textAlign: "center" }}>{error}</h3></div>
     }
 
     if (success) {
-        return <div><h3>{success}</h3></div>
+        return <div><h3 style={{ marginTop: "20px", textAlign: "center" }}>{success}</h3></div>
     }
 
     return (

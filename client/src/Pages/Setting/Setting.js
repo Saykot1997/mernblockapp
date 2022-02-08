@@ -4,12 +4,14 @@ import { FaUserCircle } from 'react-icons/fa';
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../../Context/Context";
+import { userActions } from "../../Context/Action";
 import { useHistory } from "react-router";
+import { Host } from "../../Data"
 
 
 function Setting() {
     const { user, dispatch } = useContext(Context);
-    const PF = "http://localhost:5000/upload/"
+    const PF = `${Host}/upload/`
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -17,42 +19,42 @@ function Setting() {
     const history = useHistory()
 
     useEffect(() => {
+
         setUsername(user.username);
         setEmail(user.email);
-        setPassword(user.password);
 
-    }, [])
+    }, [user])
 
     const updateUser = async (e) => {
         e.preventDefault();
 
-        if (!profilepic && !username && !email && !password) {  //if no fild is selected
+        if (!profilepic && !username && !email && !password) {
 
             window.alert("You did not fill any fild");
 
         } else {
 
-            const updateAbleUser = {
-                userId: user._id,
-                username,
-                email,
-                password
-            }
-
             if (profilepic) {
 
-                const profilepicname = Date.now() + "-" + profilepic.name;
-                updateAbleUser.profilepic = profilepicname;
                 const Picturedata = new FormData();
-                Picturedata.append('files', profilepic, profilepicname);
+                Picturedata.append('files', profilepic);
+                Picturedata.append('username', username);
+                Picturedata.append('email', email);
+                password && Picturedata.append('password', password);
 
                 try {
-                    const userUploadRes = await axios.put(`/users/${user._id}`, updateAbleUser)
-                    userUploadRes && await axios.post('/upload', Picturedata)
-                    dispatch({ type: "UPDATE_SUCCESS", payload: userUploadRes.data })
+                    const userUploadRes = await axios.post(`${Host}/users/${user._id}`, Picturedata, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            'Authorization': `Bearer ${user.token}`
+                        }
+                    });
+                    setPassword("");
+                    dispatch({ type: userActions.UpdateSuccess, payload: userUploadRes.data });
+                    window.alert("Update Success");
 
                 } catch (err) {
-                    dispatch({ type: "Update_FAILOUR" })
+                    dispatch({ type: userActions.UpdateFailour })
                     window.alert("User can't upnate!!!! ")
                 }
 
@@ -60,12 +62,27 @@ function Setting() {
 
                 try {
 
-                    const userUploadRes = await axios.put(`/users/${user._id}`, updateAbleUser);
-                    dispatch({ type: "UPDATE_SUCCESS", payload: userUploadRes.data })
+                    const updateAbleUser = {
+                        username,
+                        email,
+                    }
+
+                    password && (updateAbleUser.password = password);
+
+                    const userUploadRes = await axios.post(`${Host}/users/${user._id}`, updateAbleUser, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${user.token}`
+                        }
+                    });
+
+                    setPassword("");
+                    dispatch({ type: userActions.UpdateSuccess, payload: userUploadRes.data });
+                    window.alert("User updated successfully");
 
                 } catch (err) {
 
-                    dispatch({ type: "Update_FAILOUR" })
+                    dispatch({ type: userActions.UpdateFailour })
                     window.alert("User can't upnate!!!! ")
                 }
 
@@ -77,7 +94,11 @@ function Setting() {
     const deleteUser = async () => {
 
         try {
-            const res = await axios.delete(`/users/${user._id}`, { data: { userId: user._id, username: user.username } })
+            const res = await axios.delete(`${Host}/users/${user._id}`, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            })
             res && history.replace("/register");
             res && dispatch({ type: "LOGOUT" })
 
@@ -114,10 +135,10 @@ function Setting() {
                     </Formgroup>
                     <Formgroup>
                         <label htmlFor="Passward">Passward</label>
-                        <Input type="password" placeholder="Your Passward" id="Passward" onChange={(e) => { setPassword(e.target.value) }} />
+                        <Input type="password" placeholder="Your Passward" id="Passward" value={password} onChange={(e) => { setPassword(e.target.value) }} />
                     </Formgroup>
                     <Buttonbox Button>
-                        <Button onClick={updateUser}>Subit</Button>
+                        <Button onClick={updateUser}>Submit</Button>
                     </Buttonbox>
                 </Form>
             </Settingupdate>

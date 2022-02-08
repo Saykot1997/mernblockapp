@@ -2,48 +2,102 @@ const router = require('express').Router();
 const Post = require('../Models/Post_model');
 const fs = require("fs");
 const authgurd = require('../authgard/authgurd');
+const upload = require('../Multer/Multer');
+const path = require('path');
+
 
 // Creat Post
-
-router.post('/', async (req, res) => {
-
-    const newPost = new Post(req.body);
+router.post('/', authgurd, upload.single('files'), async (req, res) => {
 
     try {
-        const savePost = await newPost.save();
-        res.status(200).json(savePost);
+
+        if (req.file) {
+
+            const newPost = new Post({
+                title: req.body.title,
+                desc: req.body.desc,
+                photo: req.file.filename,
+                username: req.userName,
+                category: req.body.category
+            });
+
+            const post = await newPost.save();
+            res.status(200).json(post);
+
+        } else {
+
+            const newPost = new Post({
+                title: req.body.title,
+                desc: req.body.desc,
+                username: req.userName,
+                category: req.body.category
+            });
+
+            const post = await newPost.save();
+            res.status(200).json(post);
+
+        }
 
     } catch (error) {
-        res.status(500).json(error)
+        res.status(400).json(error)
     }
 })
 
 // Update Post
 
-router.put('/:id', async (req, res) => {
+router.post('/:id', authgurd, upload.single('files'), async (req, res) => {
 
     try {
+
         const post = await Post.findById(req.params.id);
 
-        if (post.username === req.body.username) {
-            if (req.body.photo) {
-                const oldPhoto = post.photo;
-                const uploadDir = "upload/";
-                const oldPhotoWithPath = uploadDir + oldPhoto;
-
-                if (fs.existsSync(oldPhotoWithPath)) {
-                    fs.unlink(oldPhotoWithPath, (err) => {
-                        console.log(err);
-                    });
-                }
-            }
+        if (post.username === req.userName) {
 
             try {
-                const updatePost = await Post.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
-                res.status(200).json(updatePost);
+
+                if (req.file) {
+
+                    const oldPhoto = post.photo;
+                    const uploadDir = "upload";
+                    const oldPhotoWithPath = path.join(uploadDir, oldPhoto);
+
+                    if (fs.existsSync(oldPhotoWithPath)) {
+
+                        fs.unlink(oldPhotoWithPath, (err) => {
+                            console.log(err);
+                        });
+                    } else {
+                        console.log("no file to delete");
+                    }
+
+                    post.title = req.body.title;
+                    post.desc = req.body.desc;
+                    post.photo = req.file.filename;
+                    post.category = req.body.category;
+
+                    const updatedPost = await post.save();
+                    res.status(200).json(updatedPost);
+
+                } else {
+
+                    const updatePost = await Post.findByIdAndUpdate(req.params.id, {
+                        $set: {
+                            title: req.body.title,
+                            desc: req.body.desc,
+                            category: req.body.category,
+                        }
+                    },
+                        { new: true }
+                    );
+
+                    res.status(200).json(updatePost);
+
+                }
+
             }
             catch (error) {
 
+                console.log(error);
                 res.status(401).json("Upload error");
             }
         }
@@ -60,11 +114,11 @@ router.put('/:id', async (req, res) => {
 
 // Delete Post
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authgurd, async (req, res) => {
 
     try {
         const post = await Post.findById(req.params.id);
-        if (post.username === req.body.username) {
+        if (post.username === req.userName) {
             try {
                 if (post.photo) {
                     const oldPhoto = post.photo;
@@ -95,9 +149,9 @@ router.delete('/:id', async (req, res) => {
 
 // Get single post
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authgurd, async (req, res) => {
 
-    const post = await Post.findById(req.params.id).populate("comments.user")
+    const post = await Post.findById(req.params.id).populate('comments.user', "profilePic username");
 
     try {
         res.send(post)
@@ -109,7 +163,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // create comments
-router.put('/comments/:id', authgurd, async (req, res) => {
+router.post('/comments/:id', authgurd, async (req, res) => {
 
     const post = await Post.findById(req.params.id);
 
@@ -117,19 +171,21 @@ router.put('/comments/:id', authgurd, async (req, res) => {
 
         if (post) {
 
-            const postComment = await Post.findOneAndUpdate({ _id: req.params.id }, {
+            await Post.findOneAndUpdate({ _id: req.params.id }, {
                 $set: {
                     comments: [...post.comments,
                     {
-                        user: req.body.userId,
-                        comments: req.body.comments
+                        user: req.userId,
+                        commentData: req.body.comments
                     }]
 
                 }
             }
-                , { new: true })
+                , { new: true });
 
-            res.status(200).json(postComment)
+            const commentedPost = await Post.findById(req.params.id).populate('comments.user', "profilepic username");
+
+            res.status(200).json(commentedPost);
 
         } else {
 
@@ -145,7 +201,7 @@ router.put('/comments/:id', authgurd, async (req, res) => {
 });
 
 // update comment
-router.put('/comments/eddit/:id', authgurd, async (req, res) => {
+router.post('/comments/eddit/:id', authgurd, async (req, res) => {
 
     const post = await Post.findById(req.params.id);
     const commentId = req.body.commentId
@@ -155,18 +211,18 @@ router.put('/comments/eddit/:id', authgurd, async (req, res) => {
         if (post) {
 
             const updateAbleCom = post.comments.find((comment) => comment._id == commentId);
-            const updateComment = { ...updateAbleCom._doc, comments: comment }
+            const updateComment = { ...updateAbleCom._doc, commentData: comment }
             const allComents = post.comments.map((comment) => comment._id == commentId ? updateComment : comment)
 
-
-
-            const updateSingleComment = await Post.findOneAndUpdate({ _id: req.params.id }, {
+            await Post.findOneAndUpdate({ _id: req.params.id }, {
                 $set: {
                     comments: allComents
                 }
             }, { new: true })
 
-            res.status(200).json(updateSingleComment)
+            const updatedCommentPost = await Post.findById(req.params.id).populate('comments.user', "profilepic username");
+
+            res.status(200).json(updatedCommentPost);
         }
 
     } catch (error) {
@@ -179,8 +235,6 @@ router.put('/comments/eddit/:id', authgurd, async (req, res) => {
 // delete comment
 router.put('/comments/delete/:id', authgurd, async (req, res) => {
 
-
-
     const post = await Post.findById(req.params.id);
     const commentId = req.body.commentId
 
@@ -189,13 +243,15 @@ router.put('/comments/delete/:id', authgurd, async (req, res) => {
 
             const allComents = post.comments.filter((comment) => comment._id != commentId)
 
-            const updateSingleComment = await Post.findOneAndUpdate({ _id: req.params.id }, {
+            await Post.findOneAndUpdate({ _id: req.params.id }, {
                 $set: {
                     comments: allComents
                 }
             }, { new: true })
 
-            res.status(200).json(updateSingleComment._doc)
+            const deletedCommentPost = await Post.findById(req.params.id).populate('comments.user', "profilepic username");
+
+            res.status(200).json(deletedCommentPost);
         }
 
     } catch (error) {
@@ -228,8 +284,7 @@ router.get('/', async (req, res) => {
 
         } else {
 
-            posts = await Post.find();
-
+            posts = await Post.find({});
         }
 
         res.status(200).json(posts);

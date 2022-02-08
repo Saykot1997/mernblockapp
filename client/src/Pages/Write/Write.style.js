@@ -48,7 +48,7 @@ export const Form = styled.form`
 `
 export const Formgroup = styled.div`
    width: 100%;
-   display: ${({File})=>(File ? "flex":"block")};
+   display: ${({ File }) => (File ? "flex" : "block")};
    align-items: center;
 `
 export const Input = styled.input`
@@ -57,18 +57,18 @@ export const Input = styled.input`
    border: none;
    outline: none;
    font-size:25px;
-   padding-left: ${({File})=>(File ? "10px" : "20px")};
+   padding-left: ${({ File }) => (File ? "10px" : "20px")};
 
    @media only screen and (max-width:600px){
       font-size:20px;
    }
     @media only screen and (max-width:400px){
-      font-size:${({category})=>(category ? "18px" : "25px")};
-      font-weight:${({category})=>(category ? "400" : "300")};
+      font-size:${({ category }) => (category ? "18px" : "25px")};
+      font-weight:${({ category }) => (category ? "400" : "300")};
    }
 `
 export const Textarea = styled.textarea`
-   padding: 20px;
+   padding: 20px 0;
    width: 100%;
    height: 400px;
    border: none;
@@ -102,4 +102,7 @@ export const Button = styled.button`
     @media only screen and (max-width:400px){
      
    }
+`
+export const Select = styled.select`
+   padding: 10px;
 `

@@ -4,6 +4,7 @@ import { Context } from "../../Context/Context"
 import { useHistory, useLocation } from 'react-router';
 import { userActions } from "../../Context/Action";
 import { Body, Error, InputBox, Title, Wraper } from './password-reset.style';
+import { Host } from "../../Data";
 
 function PasswortCreate() {
 
@@ -53,13 +54,14 @@ function PasswortCreate() {
 
                 try {
                     setLoading(true);
-                    const res = await axios.post("/password/create-password", tokenData);
-                    dispatch({ type: userActions.LoadingSuccess, payload: res.data })
+                    const res = await axios.post(`${Host}/password/create-password`, tokenData);
+                    dispatch({ type: userActions.UpdateSuccess, payload: res.data });
                     res.data && history.replace('/');
                 }
                 catch (error) {
 
-                    setError(error.message)
+                    setLoading(false);
+                    setError(error.response.data);
                 }
 
             } else {
@@ -75,7 +77,11 @@ function PasswortCreate() {
 
 
     if (loading) {
-        return <div><h3>Loading...</h3></div>
+        return <div><h3 style={{ marginTop: "20px", textAlign: "center" }}>Loading...</h3></div>
+    }
+    if (error) {
+
+        return <div><h3 style={{ color: "red", marginTop: "20px", textAlign: "center" }}>{error}</h3></div>
     }
 
     return (

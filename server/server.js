@@ -6,13 +6,16 @@ const authRoute = require('./Router/Auth-router');
 const usersRoute = require('./Router/User-router');
 const postsRoute = require('./Router/Post-router');
 const passwordRoute = require("./Router/PasswordReset-router");
-const categoriesRoute = require('./Router/Catagory-router');
-const multer = require('multer')
+const categoriesRoute = require("./Router/CategoryRoute");
 const cookieParser = require('cookie-parser');
 const path = require("path");
+const cors = require('cors');
 
 // env file config
 dotenv.config();
+
+// corse config
+app.use(cors());
 
 // path
 
@@ -24,42 +27,10 @@ app.use(express.json());
 // cookie parser
 app.use(cookieParser());
 
+// mongodb conection
 
-// databess conection
-const databaseUrl = 'mongodb://localhost:27017/blockapp';
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, () => { console.log("databess has been conected !") });
 
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, () => { console.log("databess has been conected !") });
-
-// multer images upload
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'upload')
-  },
-
-  filename: (req, file, cb) => {
-    cb(null, file.originalname)
-  }
-})
-
-const upload = multer({
-  storage: storage, fileFilter: (req, file, cb) => {
-    if (
-      file.mimetype === "image/jpg" ||
-      file.mimetype === "image/jpeg" ||
-      file.mimetype === "image/png"
-    ) {
-      cb(null, true)
-    } else {
-      cb(new Error("only jpg,jpeg and png are alowed."))
-    }
-
-  }
-})
-
-app.post('/upload', upload.single('files'), (req, res) => {
-  res.status(200).send(req.file)
-});
 
 // routes
 
@@ -68,17 +39,6 @@ app.use("/users", usersRoute);
 app.use("/posts", postsRoute);
 app.use("/category", categoriesRoute);
 app.use("/password", passwordRoute);
-
-
-// error handler 
-
-app.use((err, req, res, next) => {
-  if (err) {
-    res.status(503).send(err.message)
-  } else {
-    res.status(200).send("success")
-  }
-})
 
 // port number
 

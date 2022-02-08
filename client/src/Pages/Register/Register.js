@@ -2,25 +2,37 @@ import { Regcontainer, Img, Regbox, Title, Formbox, Form, Formgroup, Input, Btn,
 import Image from "../../images/reg.jpg"
 import { useState } from "react"
 import axios from "axios"
-import { useHistory } from "react-router"
+import { useHistory } from "react-router";
+import { Host } from "../../Data"
 
 function Register() {
 
     const [username, setUsername] = useState("")
     const [useremail, setEmail] = useState("")
     const [userpassword, setPassword] = useState("")
-    const [error, setError] = useState(false);
+    const [error, setError] = useState("");
     const history = useHistory();
 
 
     const registration = async (e) => {
-        try {
-            e.preventDefault()
-            const res = await axios.post("/auth/register", { username: username, email: useremail, password: userpassword })
-            res.data && history.replace("/login")
-            setError(false)
-        } catch (error) {
-            setError(true)
+
+        setError("")
+
+        if (username === "" || useremail === "" || userpassword === "") {
+
+            window.alert("please fill all the fields");
+
+        } else {
+
+            try {
+                e.preventDefault()
+                const res = await axios.post(`${Host}/auth/register`, { username: username, email: useremail, password: userpassword })
+                res.data && history.replace("/login")
+                setError(false)
+
+            } catch (err) {
+                setError(err.response.data)
+            }
         }
     }
 
@@ -50,7 +62,7 @@ function Register() {
                             <P>Already have an account?</P>
                             <Navlink to="/login"><BtnReg>Login</BtnReg></Navlink>
                         </Formgroup>
-                        {error && <p style={{ color: "red", marginTop: "10px" }}>Some thing went wrong</p>}
+                        {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
                     </Form>
                 </Formbox>
             </Regbox>

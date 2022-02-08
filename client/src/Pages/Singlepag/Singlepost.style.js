@@ -197,3 +197,7 @@ export const CommentBox = styled.div`
    }
    
 `
+
+export const Select = styled.select`
+    padding: 10px;
+`
