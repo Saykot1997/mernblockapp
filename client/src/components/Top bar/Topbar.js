@@ -1,13 +1,14 @@
 import { Navbar, Navleft, Navright, Navcenter, Navmenu, Navmenuitems, Navlink, Img, ToggleButton, CloseMenu, Logo } from "./Topbar.styled"
 import { useContext, useState } from "react";
 import { Context } from "../../Context/Context";
+import { Host } from "../../Data"
 
 
 export default function Topbar() {
 
     const [small, setSmall] = useState(false)
 
-    const PF = "http://localhost:5000/upload/"
+    const PF = `${Host}/upload/`
     const { user, dispatch } = useContext(Context);
 
     const Logout = () => {
