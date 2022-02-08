@@ -4,6 +4,9 @@ services:
     build: ./client
     ports:
       - "3000:3000"
+    depends_on:
+      - web
+      - mongo
 
   web:
     build: ./server
@@ -24,6 +27,7 @@ services:
       - "27017:27017"
     volumes:
       - mongo-express-data:/data/db
+      - photos:/data/upload
 
   mongo-express:
     image: mongo-express
@@ -33,4 +37,6 @@ services:
 
 volumes:
   mongo-express-data:
+    driver: local
+  photos:
     driver: local
