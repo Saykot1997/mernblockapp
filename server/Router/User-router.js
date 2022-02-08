@@ -38,7 +38,7 @@ router.post('/:id', authgurd, upload.single('files'), async (req, res) => {
                 console.log("oldPhoto is not exist");
             }
 
-            if (req.body.password) {
+            if (password) {
 
                 hassedPassword = await bcrypt.hash(req.body.password, 10);
                 user.password = hassedPassword;

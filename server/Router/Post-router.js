@@ -58,7 +58,7 @@ router.post('/:id', authgurd, upload.single('files'), async (req, res) => {
                 if (req.file) {
 
                     const oldPhoto = post.photo;
-                    const uploadDir = "upload";
+                    const uploadDir = "upload/";
                     const oldPhotoWithPath = path.join(uploadDir, oldPhoto);
 
                     if (fs.existsSync(oldPhotoWithPath)) {
@@ -122,7 +122,7 @@ router.delete('/:id', authgurd, async (req, res) => {
             try {
                 if (post.photo) {
                     const oldPhoto = post.photo;
-                    const uploadDir = "upload/";
+                    const uploadDir = "upload";
                     const oldPhotoWithPath = uploadDir + oldPhoto;
 
                     if (fs.existsSync(oldPhotoWithPath)) {
