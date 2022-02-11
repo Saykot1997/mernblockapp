@@ -21,12 +21,16 @@ function PasswordReset() {
                 setLoading(false)
                 setSuccess("Message has been send. Please check your email");
             }
+
         }).catch(function (error) {
 
             if (error.response.data === "User not found") {
+
                 setLoading(false);
                 setError("User not found.Enter correct email");
+
             } else {
+
                 setLoading(false);
                 setError("Server Error");
             }

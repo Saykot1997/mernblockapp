@@ -39,6 +39,7 @@ router.post('/', authgurd, upload.single('files'), async (req, res) => {
         }
 
     } catch (error) {
+
         res.status(400).json(error)
     }
 })
@@ -59,14 +60,16 @@ router.post('/:id', authgurd, upload.single('files'), async (req, res) => {
 
                     const oldPhoto = post.photo;
                     const uploadDir = "upload/";
-                    const oldPhotoWithPath = path.join(uploadDir, oldPhoto);
+                    const oldPhotoWithPath = uploadDir + oldPhoto;
 
                     if (fs.existsSync(oldPhotoWithPath)) {
 
                         fs.unlink(oldPhotoWithPath, (err) => {
                             console.log(err);
                         });
+
                     } else {
+
                         console.log("no file to delete");
                     }
 
@@ -102,11 +105,13 @@ router.post('/:id', authgurd, upload.single('files'), async (req, res) => {
             }
         }
         else {
+
             res.status(403).json("You can update only your posts");
         }
 
     }
     catch (error) {
+
         res.status(500).json("databess error");
     }
 });
@@ -117,32 +122,33 @@ router.post('/:id', authgurd, upload.single('files'), async (req, res) => {
 router.delete('/:id', authgurd, async (req, res) => {
 
     try {
+
         const post = await Post.findById(req.params.id);
         if (post.username === req.userName) {
-            try {
-                if (post.photo) {
-                    const oldPhoto = post.photo;
-                    const uploadDir = "upload";
-                    const oldPhotoWithPath = uploadDir + oldPhoto;
 
-                    if (fs.existsSync(oldPhotoWithPath)) {
-                        fs.unlink(oldPhotoWithPath, (err) => {
-                            if (err) { new Error("Culd not delete photos") }
-                        });
-                    }
+            if (post.photo) {
+
+                const oldPhoto = post.photo;
+                const uploadDir = "upload/";
+                const oldPhotoWithPath = uploadDir + oldPhoto;
+
+                if (fs.existsSync(oldPhotoWithPath)) {
+                    fs.unlink(oldPhotoWithPath, (err) => {
+                        if (err) { new Error("Culd not delete photos") }
+                    });
                 }
-                await post.delete()
-                res.status(200).json("Post has been deleted");
             }
-            catch (error) {
-                res.status(401).json("Could not delete");
-            }
-        }
-        else {
+
+            await post.delete()
+            res.status(200).json("Post has been deleted");
+
+        } else {
+
             res.status(400).json("You can delete only your posts");
         }
     }
     catch (error) {
+
         res.status(500).json("You can delete only your posts");
     }
 });
@@ -154,10 +160,12 @@ router.get('/:id', authgurd, async (req, res) => {
     const post = await Post.findById(req.params.id).populate('comments.user', "profilePic username");
 
     try {
-        res.send(post)
+
+        res.status(200).json(post);
 
     } catch (error) {
-        res.send(error)
+
+        res.status(500).json("databess error");
     }
 
 });
@@ -226,6 +234,7 @@ router.post('/comments/eddit/:id', authgurd, async (req, res) => {
         }
 
     } catch (error) {
+
         console.log(error)
         res.send(error)
     }
@@ -291,6 +300,7 @@ router.get('/', async (req, res) => {
 
 
     } catch (error) {
+
         res.send(error);
     }
 

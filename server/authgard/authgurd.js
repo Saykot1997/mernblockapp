@@ -7,6 +7,7 @@ const authgurd = async (req, res, next) => {
         const token = req.headers.authorization.replace("Bearer ", "");
 
         try {
+
             const isvarified = await jwt.verify(token, process.env.TOKENSECRATE);
 
             if (isvarified) {
@@ -19,13 +20,14 @@ const authgurd = async (req, res, next) => {
 
                 res.status(400).json('token is not varified')
             }
-        }
-        catch (error) {
+
+        } catch (error) {
 
             res.status(500).json('you need to login first !!')
         }
 
     } else {
+
         res.status(401).json("You are not authorized login first")
     }
 

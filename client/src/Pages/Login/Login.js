@@ -9,9 +9,9 @@ import { Host } from "../../Data";
 function Login() {
     const { dispatch, isFeching } = useContext(Context);
     const history = useHistory();
-
     const userRef = useRef()
     const passwordRef = useRef()
+
 
     const Login = async (e) => {
 
@@ -26,16 +26,17 @@ function Login() {
             dispatch({ type: "LOGIN_START" })
 
             try {
+
                 const data = {
                     username: userRef.current.value,
                     password: passwordRef.current.value
                 }
-                console.log(data)
+
                 const res = await axios.post(`${Host}/auth/login`, data);
                 dispatch({ type: "LOGIN_SUCCESS", payload: res.data })
                 res.data && history.replace('/');
-            }
-            catch (error) {
+
+            } catch (error) {
 
                 console.log(error)
                 dispatch({ type: "LOGIN_FAILOUR" })

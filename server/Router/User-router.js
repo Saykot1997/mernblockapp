@@ -23,7 +23,7 @@ router.post('/:id', authgurd, upload.single('files'), async (req, res) => {
 
             const oldPhoto = user.profilepic;
             const uploadDir = "upload/";
-            const oldPhotoWithPath = path.join(__dirname, uploadDir, oldPhoto);
+            const oldPhotoWithPath = uploadDir + oldPhoto;
 
             if (oldPhoto) {
 
@@ -133,13 +133,15 @@ router.delete('/:id', authgurd, async (req, res) => {
     if (req.userId === req.params.id) {
 
         try {
+
             const user = await User.findById(req.params.id);
 
             try {
+
                 if (user.profilepic) {
                     const oldPhoto = user.profilepic;
                     const uploadDir = "upload/";
-                    const oldPhotoWithPath = path.join(__dirname, uploadDir, oldPhoto);
+                    const oldPhotoWithPath = uploadDir + oldPhoto;
 
                     if (oldPhoto) {
 
@@ -154,12 +156,13 @@ router.delete('/:id', authgurd, async (req, res) => {
                         console.log("oldPhoto is not exist");
                     }
                 }
+
                 const allpost = await Post.find({ username: user.username })
                 allpost.map((post) => {
 
                     const oldPhoto = user.profilepic;
                     const uploadDir = "upload/";
-                    const oldPhotoWithPath = path.join(__dirname, uploadDir, oldPhoto);
+                    const oldPhotoWithPath = uploadDir + oldPhoto;
 
                     if (oldPhoto) {
 
@@ -181,16 +184,19 @@ router.delete('/:id', authgurd, async (req, res) => {
                 res.status(200).json('user has been deleted !!')
             }
             catch (err) {
+
                 res.status(500).json(err);
             }
 
         }
         catch (error) {
+
             res.status(404).json('user not found !!')
         }
 
     }
     else {
+
         res.status(400).json("you can delete only your account!!");
     }
 });

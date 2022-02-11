@@ -30,11 +30,13 @@ function Singlepost() {
     useEffect(() => {
 
         const getPost = async () => {
+
             const res = await axios.get(`${Host}/posts/` + path, {
                 headers: {
                     "Authorization": "Bearer " + user.token
                 }
             })
+
             setpost(res.data);
             setTitle(res.data.title);
             setDesc(res.data.desc);
@@ -96,16 +98,19 @@ function Singlepost() {
             }
 
             try {
+
                 const res = await axios.post(`${Host}/posts/${post._id}`, newPost, {
                     headers: {
                         "Authorization": "Bearer " + user.token
                     }
                 });
+
                 setpost(res.data)
                 setTitle(res.data.title)
                 setDesc(res.data.desc)
             }
             catch (err) {
+
                 console.log(err)
                 window.alert("Upload error !!")
             }
@@ -115,11 +120,13 @@ function Singlepost() {
     //  create comment
 
     const CommentPost = async () => {
+
         const res = await axios.post(`${Host}/posts/comments/${post._id}`, { comments }, {
             headers: {
                 "Authorization": "Bearer " + user.token
             }
-        })
+        });
+
         setComments('');
         setpost(res.data);
     }
@@ -129,6 +136,7 @@ function Singlepost() {
         setActiveCommentID(comment._id)
         setCommentEdit(!commentEdit)
     }
+
     const EdditCommentClose = () => {
         setEdditAbleCom("");
         setActiveCommentID("")
@@ -143,7 +151,8 @@ function Singlepost() {
             headers: {
                 "Authorization": "Bearer " + user.token
             }
-        })
+        });
+
         setpost(res.data);
         setEdditAbleCom("");
     }

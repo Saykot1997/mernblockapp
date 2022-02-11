@@ -10,6 +10,7 @@ import { Host } from "../../Data"
 
 
 function Setting() {
+
     const { user, dispatch } = useContext(Context);
     const PF = `${Host}/upload/`
     const [username, setUsername] = useState("")
@@ -43,17 +44,20 @@ function Setting() {
                 password && Picturedata.append('password', password);
 
                 try {
+
                     const userUploadRes = await axios.post(`${Host}/users/${user._id}`, Picturedata, {
                         headers: {
                             'Content-Type': 'multipart/form-data',
                             'Authorization': `Bearer ${user.token}`
                         }
                     });
+
                     setPassword("");
                     dispatch({ type: userActions.UpdateSuccess, payload: userUploadRes.data });
                     window.alert("Update Success");
 
                 } catch (err) {
+
                     dispatch({ type: userActions.UpdateFailour })
                     window.alert("User can't upnate!!!! ")
                 }
@@ -103,6 +107,7 @@ function Setting() {
             res && dispatch({ type: "LOGOUT" })
 
         } catch (error) {
+
             dispatch({ type: "UPDATE_FAILOUR " })
         }
 

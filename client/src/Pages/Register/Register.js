@@ -25,12 +25,14 @@ function Register() {
         } else {
 
             try {
+
                 e.preventDefault()
                 const res = await axios.post(`${Host}/auth/register`, { username: username, email: useremail, password: userpassword })
                 res.data && history.replace("/login")
                 setError(false)
 
             } catch (err) {
+
                 setError(err.response.data)
             }
         }

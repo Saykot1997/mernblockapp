@@ -53,6 +53,7 @@ function PasswortCreate() {
                 }
 
                 try {
+
                     setLoading(true);
                     const res = await axios.post(`${Host}/password/create-password`, tokenData);
                     dispatch({ type: userActions.UpdateSuccess, payload: res.data });

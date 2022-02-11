@@ -37,6 +37,7 @@ function Write() {
                 Filedata.append('username', user.username);
 
                 try {
+
                     const res = await axios.post(`${Host}/posts`, Filedata, {
                         headers: {
                             'Content-Type': 'multipart/form-data',
@@ -46,6 +47,7 @@ function Write() {
                     history.replace(`/post/${res.data._id}`)
                 }
                 catch (err) {
+
                     window.alert("Upload error !!")
                     console.log(err)
                 }
@@ -59,6 +61,7 @@ function Write() {
                 }
 
                 try {
+
                     const res = await axios.post(`${Host}/posts`, newPost, {
                         headers: {
                             'Content-Type': 'application/json',
@@ -68,6 +71,7 @@ function Write() {
                     history.replace(`/post/${res.data._id}`)
                 }
                 catch (err) {
+
                     window.alert("Upload error !!")
                     console.log(err)
                 }
