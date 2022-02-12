@@ -7,7 +7,6 @@ services:
     depends_on:
       - web
       - mongo
-
   web:
     build: ./server
     ports:
@@ -15,8 +14,8 @@ services:
     depends_on:
       - mongo
     environment:
-      - EMAIL=appDiployerEmail
-      - EMAIL_PASSWORD=appDiployerEmailPassword
+      - EMAIL=saykothossain14@gmail.com
+      - EMAIL_PASSWORD=saykothossain1997@
       - TOKENSECRATE=lksdajlkjslkajklklsfakklsajkljakljflkjjlkajkljfjflklkksakfjdsafljkajskslsa
       - DATABASE_URL=mongodb://mongo:27017/blogapp
       - CLIENT_URL=http://localhost:3000
@@ -29,13 +28,11 @@ services:
       - "27017:27017"
     volumes:
       - mongo-express-data:/data/db
-
   mongo-express:
     image: mongo-express
     restart: always
     ports:
       - 8081:8081
-
 volumes:
   mongo-express-data:
     driver: local

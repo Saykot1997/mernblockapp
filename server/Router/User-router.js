@@ -148,7 +148,7 @@ router.delete('/:id', authgurd, async (req, res) => {
 
                         if (fs.existsSync(oldPhotoWithPath)) {
                             fs.unlink(oldPhotoWithPath, (err) => {
-                                console.log(err);
+                                console.log("old photo has been deleted");
                             });
                         }
 
@@ -161,7 +161,7 @@ router.delete('/:id', authgurd, async (req, res) => {
                 const allpost = await Post.find({ username: user.username })
                 allpost.map((post) => {
 
-                    const oldPhoto = user.profilepic;
+                    const oldPhoto = post.photo;
                     const uploadDir = "upload/";
                     const oldPhotoWithPath = uploadDir + oldPhoto;
 

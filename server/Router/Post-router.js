@@ -78,12 +78,14 @@ router.post('/:id', authgurd, upload.single('files'), async (req, res) => {
                     post.photo = req.file.filename;
                     post.category = req.body.category;
 
-                    const updatedPost = await post.save();
+                    await post.save();
+                    const updatedPost = await Post.findById(req.params.id).populate('comments.user');
+                    console.log(updatedPost.comments.user);
                     res.status(200).json(updatedPost);
 
                 } else {
 
-                    const updatePost = await Post.findByIdAndUpdate(req.params.id, {
+                    await Post.findByIdAndUpdate(req.params.id, {
                         $set: {
                             title: req.body.title,
                             desc: req.body.desc,
@@ -93,24 +95,22 @@ router.post('/:id', authgurd, upload.single('files'), async (req, res) => {
                         { new: true }
                     );
 
-                    res.status(200).json(updatePost);
-
+                    const updatedPost = await Post.findById(req.params.id).populate('comments.user');
+                    res.status(200).json(updatedPost);
                 }
 
-            }
-            catch (error) {
+            } catch (error) {
 
                 console.log(error);
                 res.status(401).json("Upload error");
             }
-        }
-        else {
+
+        } else {
 
             res.status(403).json("You can update only your posts");
         }
 
-    }
-    catch (error) {
+    } catch (error) {
 
         res.status(500).json("databess error");
     }
@@ -157,7 +157,7 @@ router.delete('/:id', authgurd, async (req, res) => {
 
 router.get('/:id', authgurd, async (req, res) => {
 
-    const post = await Post.findById(req.params.id).populate('comments.user', "profilePic username");
+    const post = await Post.findById(req.params.id).populate('comments.user');
 
     try {
 
