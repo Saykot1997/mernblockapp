@@ -14,8 +14,8 @@ services:
     depends_on:
       - mongo
     environment:
-      - EMAIL=saykothossain14@gmail.com
-      - EMAIL_PASSWORD=saykothossain1997@
+      - EMAIL=exampleEmail
+      - EMAIL_PASSWORD=examplePassword
       - TOKENSECRATE=lksdajlkjslkajklklsfakklsajkljakljflkjjlkajkljfjflklkksakfjdsafljkajskslsa
       - DATABASE_URL=mongodb://mongo:27017/blogapp
       - CLIENT_URL=http://localhost:3000
