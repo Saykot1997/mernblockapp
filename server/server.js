@@ -18,7 +18,7 @@ dotenv.config();
 app.use(cors());
 
 // path
-app.use("/upload", express.static(path.join(__dirname, "/upload")))
+app.use("/upload", express.static(path.join(__dirname, "upload")))
 
 // req body reciver
 app.use(express.json());

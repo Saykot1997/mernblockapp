@@ -19,8 +19,6 @@ router.post('/:id', authgurd, upload.single('files'), async (req, res) => {
 
         if (req.file) {
 
-            user.profilepic = req.file.filename;
-
             const oldPhoto = user.profilepic;
             const uploadDir = "upload/";
             const oldPhotoWithPath = uploadDir + oldPhoto;
@@ -29,7 +27,7 @@ router.post('/:id', authgurd, upload.single('files'), async (req, res) => {
 
                 if (fs.existsSync(oldPhotoWithPath)) {
                     fs.unlink(oldPhotoWithPath, (err) => {
-                        console.log(err);
+                        console.log("old photo has been deleted");
                     });
                 }
 
@@ -37,6 +35,8 @@ router.post('/:id', authgurd, upload.single('files'), async (req, res) => {
 
                 console.log("oldPhoto is not exist");
             }
+
+            user.profilepic = req.file.filename;
 
             if (password) {
 
@@ -139,6 +139,7 @@ router.delete('/:id', authgurd, async (req, res) => {
             try {
 
                 if (user.profilepic) {
+
                     const oldPhoto = user.profilepic;
                     const uploadDir = "upload/";
                     const oldPhotoWithPath = uploadDir + oldPhoto;
@@ -168,7 +169,7 @@ router.delete('/:id', authgurd, async (req, res) => {
 
                         if (fs.existsSync(oldPhotoWithPath)) {
                             fs.unlink(oldPhotoWithPath, (err) => {
-                                console.log(err);
+                                console.log("old photo has been deleted");
                             });
                         }
 
