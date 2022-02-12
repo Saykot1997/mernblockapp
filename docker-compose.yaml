@@ -20,6 +20,8 @@ services:
       - TOKENSECRATE=lksdajlkjslkajklklsfakklsajkljakljflkjjlkajkljfjflklkksakfjdsafljkajskslsa
       - DATABASE_URL=mongodb://mongo:27017/blogapp
       - CLIENT_URL=http://localhost:3000
+    volumes:
+      - photos:/usr/src/app/server/upload
   mongo:
     image: mongo
     restart: always
@@ -27,7 +29,6 @@ services:
       - "27017:27017"
     volumes:
       - mongo-express-data:/data/db
-      - photos:/data/upload
 
   mongo-express:
     image: mongo-express
