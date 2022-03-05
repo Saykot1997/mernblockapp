@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.3"
 services:
   client:
     build: ./client
@@ -25,7 +25,7 @@ services:
     image: mongo
     restart: always
     ports:
-      - "27017:27017"
+      - "27017"
     volumes:
       - mongo-express-data:/data/db
   mongo-express:
