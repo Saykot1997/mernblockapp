@@ -1,21 +1,21 @@
 version: "3.3"
 services:
   client:
-    build: ./client
+    image: saykot/blog-frontend:1.0.0
     ports:
       - "3000:3000"
     depends_on:
       - web
       - mongo
   web:
-    build: ./server
+    image: saykot/blog-backend:1.0.0
     ports:
       - "5000:5000"
     depends_on:
       - mongo
     environment:
-      - EMAIL=exampleEmail
-      - EMAIL_PASSWORD=examplePassword
+      - EMAIL=<email>
+      - EMAIL_PASSWORD=<emailpassword>
       - TOKENSECRATE=lksdajlkjslkajklklsfakklsajkljakljflkjjlkajkljfjflklkksakfjdsafljkajskslsa
       - DATABASE_URL=mongodb://mongo:27017/blogapp
       - CLIENT_URL=http://localhost:3000
@@ -27,14 +27,9 @@ services:
     ports:
       - "27017"
     volumes:
-      - mongo-express-data:/data/db
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - 8081:8081
+      - data:/data/db
 volumes:
-  mongo-express-data:
+  data:
     driver: local
   photos:
     driver: local
