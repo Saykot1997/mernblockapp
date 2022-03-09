@@ -18,7 +18,7 @@ dotenv.config();
 app.use(cors());
 
 // path
-app.use("/upload", express.static(path.join(__dirname, "upload")))
+app.use("/api/upload", express.static(path.join(__dirname, "upload")))
 
 // req body reciver
 app.use(express.json());
@@ -30,11 +30,11 @@ app.use(cookieParser());
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, () => { console.log("databess has been conected !") });
 
 // routes
-app.use("/auth", authRoute);
-app.use("/users", usersRoute);
-app.use("/posts", postsRoute);
-app.use("/category", categoriesRoute);
-app.use("/password", passwordRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/users", usersRoute);
+app.use("/api/posts", postsRoute);
+app.use("/api/category", categoriesRoute);
+app.use("/api/password", passwordRoute);
 
 // port number
 const PORT = process.env.PORT || 5000;

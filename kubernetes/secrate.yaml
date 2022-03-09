@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: Opaque
+stringData:
+  token-secrate: laskdjlkjfalkjlkdjlfkjsalkfjlksajfkljklsajflkjfklsjakdjkladslfjk
+  database-url: mongodb://blog-mongo-srv/blog
+  email: <email>
+  email-password: <emailpassword>
+  cliet-url: http://saykotblog.io

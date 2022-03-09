@@ -33,7 +33,23 @@ function Register() {
 
             } catch (err) {
 
-                setError(err.response.data)
+                if (err.response.data === "Username already exist") {
+
+                    setError(err.response.data);
+
+                } else if (err.response.data === "Email already exist") {
+
+                    setError(err.response.data);
+
+                } else if (err.response.data === "Username and Email already exist") {
+
+                    setError(err.response.data);
+
+                } else {
+
+                    console.log(err)
+                }
+
             }
         }
     }

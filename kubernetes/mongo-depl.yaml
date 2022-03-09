@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blog-mongo
+  template:
+    metadata:
+      labels:
+        app: blog-mongo
+    spec:
+      containers:
+        - name: blog-mongo
+          image: mongo
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongo-storage
+              mountPath: /data/db
+      volumes:
+        - name: mongo-storage
+          persistentVolumeClaim:
+            claimName: mongo-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-mongo-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: blog-mongo
+  ports:
+    - port: 27017
+      targetPort: 27017

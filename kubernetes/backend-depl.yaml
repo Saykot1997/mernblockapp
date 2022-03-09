@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-backend-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blog-backend
+  template:
+    metadata:
+      labels:
+        app: blog-backend
+    spec:
+      containers:
+        - name: blog-backend
+          image: saykot/blog-backend:1.0.1
+          ports:
+            - containerPort: 5000
+          env:
+            - name: TOKENSECRATE
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: token-secrate
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: database-url
+            - name: EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: email
+            - name: EMAIL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: email-password
+            - name: CLIENT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: cliet-url
+          volumeMounts:
+            - name: server-storage
+              mountPath: /usr/src/app/server/upload
+      volumes:
+        - name: server-storage
+          persistentVolumeClaim:
+            claimName: server-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-backend-srv
+spec:
+  selector:
+    app: blog-backend
+  ports:
+    - port: 5000
+      targetPort: 5000
