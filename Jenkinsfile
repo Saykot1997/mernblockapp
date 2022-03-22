@@ -2,7 +2,7 @@ node {
 
     stage("Git Clone"){
 
-        url: 'https://github.com/Saykot1997/mernblockapp.git'
+        git branch: 'main', url: 'https://github.com/Saykot1997/mernblockapp.git'
     }
 
      stage("Frontend App Docker Build"){
