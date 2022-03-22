@@ -15,6 +15,7 @@ import PasswortCreate from "./Pages/Password-reset/PasswortCreate";
 
 function App() {
   const { user } = useContext(Context);
+  console.log("jenkins file added");
 
   return (
     <Router>
