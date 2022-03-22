@@ -29,7 +29,7 @@ node {
 
     stage("Backend Image Push to Docker Hub"){
 
-        sh 'docker push saykot/blog-Backend:latest'
+        sh 'docker push saykot/blog-backend:latest'
     }
 }
  
